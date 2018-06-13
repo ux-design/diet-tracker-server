@@ -1,0 +1,12 @@
+{
+  "mazzilli.andrea@gmail.com": {
+    "password": "1234",
+    "status": "active",
+    "firstname": "andrea",
+    "lastname": "",
+    "birth": "19760209",
+    "weight": 85,
+    "height": 180,
+    "units": "metric"
+  }
+}
