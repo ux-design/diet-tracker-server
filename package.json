@@ -1,0 +1,26 @@
+{
+  "name": "diet-tracker-server",
+  "version": "1.0.0",
+  "description": "node express rxjs server",
+  "main": "index.js",
+  "dependencies": {
+    "compression": "^1.7.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "ip": "^1.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ux-design/diet-tracker-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ux-design/diet-tracker-server/issues"
+  },
+  "homepage": "https://github.com/ux-design/diet-tracker-server#readme"
+}
