@@ -55,6 +55,13 @@ app.get('/assets/food/:name', (req, res) => {
   res.sendFile( __dirname + `/assets/food/${name}.svg` );
 } ) ;
 
+app.get('/assets/app/:name', (req, res) => {
+  const {name} = req.params;
+  console.log(`${name}.svg`)
+  _logMemUsage()
+  res.sendFile( __dirname + `/assets/app/${name}.svg` );
+} ) ;
+
 // API POST
 
 app.post('/api/:api', (req, res) => {
