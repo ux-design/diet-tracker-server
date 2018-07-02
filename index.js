@@ -27,6 +27,20 @@ const _logMemUsage = () => {
   console.log(process.memoryUsage().heapUsed / 1024 / 1024)
 }
 
+const _sendErrorMessage = (res) => {
+  if (res.status(500)) {
+    res.send({ "error": "page not found"})
+  } else {
+    res.send({ "error": "page not found"})
+  }
+}
+
+const _sendResource = (res, file) => {
+  fs.existsSync(file)
+    ? res.sendFile(file)
+    : _sendErrorMessage(res)
+}
+
 // API CONFIG
 
 app.use(compression())
@@ -44,23 +58,29 @@ app.get('/api/:api', (req, res) => {
       res.send({ "success": state.food })
       break
     default:
-      res.send({ "error": "page not found "})
+    _sendErrorMessage(res)
   }
 })
 
 app.get('/assets/food/:name', (req, res) => {
   const {name} = req.params;
   console.log(`${name}.svg`)
+  const file = __dirname + `/assets/food/${name}.svg`
   _logMemUsage()
-  res.sendFile( __dirname + `/assets/food/${name}.svg` );
+  _sendResource(res, file)
 } ) ;
 
 app.get('/assets/app/:name', (req, res) => {
   const {name} = req.params;
   console.log(`${name}.svg`)
+  const file = __dirname + `/assets/app/${name}.svg`
   _logMemUsage()
-  res.sendFile( __dirname + `/assets/app/${name}.svg` );
+  _sendResource(res, file)
 } ) ;
+
+app.get('/*', (req, res) => {
+  _sendErrorMessage(res)
+})
 
 // API POST
 
@@ -82,7 +102,7 @@ app.post('/api/:api', (req, res) => {
       }      
       break
     default:
-      res.send({ "error": "page not found" })
+    _sendErrorMessage(res)
   }
 })
 
