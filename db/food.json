@@ -5,6 +5,12 @@
     "protein": 1.1,
     "fat": 0
   },
+  "onion_orange": {
+    "category": "vegetables",
+    "carb": 9.3,
+    "protein": 1.1,
+    "fat": 0
+  },
   "tomato": {
     "category": "vegetables",
     "carb": 3.9,
@@ -78,6 +84,18 @@
     "fat": 0
   },
   "eggplant": {
+    "category": "vegetables",
+    "carb": 0,
+    "protein": 0,
+    "fat": 0
+  },
+  "chili_red": {
+    "category": "vegetables",
+    "carb": 0,
+    "protein": 0,
+    "fat": 0
+  },
+  "chili_green": {
     "category": "vegetables",
     "carb": 0,
     "protein": 0,
