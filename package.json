@@ -9,9 +9,11 @@
     "express": "^4.16.3",
     "ip": "^1.1.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^23.4.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",

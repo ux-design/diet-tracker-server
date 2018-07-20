@@ -101,6 +101,14 @@ app.post('/api/:api', (req, res) => {
         res.send({ "error": "wrong credentials" })
       }      
       break
+    case"register":
+      if (users[data.email]) {
+        res.send({ "error": "email already exists" })
+      } else {
+        console.log('email ok')
+        res.send({ "error": "wrong credentials" })
+      }
+      break
     default:
     _sendErrorMessage(res)
   }
