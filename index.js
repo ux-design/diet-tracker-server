@@ -2,6 +2,10 @@
 
 const fs = require('fs')
 
+// ACCOUNT
+
+const account = require('./modules/account')
+
 // SERVER
 
 const express = require('express')
@@ -87,26 +91,42 @@ app.get('/*', (req, res) => {
 app.post('/api/:api', (req, res) => {
   _logMemUsage()
   const {api} = req.params
-  const data = req.body
-  const users = JSON.parse(fs.readFileSync('./db/users.json'))
+  const {email, password, passwordRepeat, accepted} = req.body
   switch(api) {
     case"login":
-      if (users[data.email]) {
-        if (users[data.email].password === data.password) {
-          res.send({ "success": users[ data.email ] })
+      if (!account.checkEmailAvailable(email)) {
+        const user = account.getDetails(email)
+        if (user.status === 'active') {
+          if (user.password === password) {
+            res.send({ "success": user })
+          } else {
+            res.send({ "error": "wrong credentials" })
+          }
         } else {
-          res.send({ "error": "wrong credentials" })
+          res.send({ "error": "user is not active yet" })
         }
       } else {
         res.send({ "error": "wrong credentials" })
       }      
       break
     case"register":
-      if (users[data.email]) {
-        res.send({ "error": "email already exists" })
+      if (!accepted) {
+        res.send({ "error": "you need to accept the terms" })
+      } else if (password !== passwordRepeat) {
+        res.send({ "error": "password repeated is different" })
+      } else if (!account.checkPasswordValidity) {
+        res.send({ "error": "password is not valid" })
       } else {
-        console.log('email ok')
-        res.send({ "error": "wrong credentials" })
+        if (account.checkEmailAvailable(email)) {
+          const user = account.saveDetails(email, password)
+          if (!user) {
+            res.send({ "error": "there was a problem on the server" })
+          } else {
+            res.send({ "success": user })
+          }
+        } else {
+          res.send({ "error": "email already exists" })
+        }
       }
       break
     default:

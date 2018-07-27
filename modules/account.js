@@ -1,4 +1,9 @@
 const fs = require('fs')
+const jsonFormat = require('json-format')
+const jsonFormatConfig = {
+  type: 'space',
+  size: 2
+}
 
 const checkEmailAvailable = email => {
   return JSON
@@ -16,13 +21,24 @@ const checkPasswordValidity = password => {
 const checkPasswordRepeat = (password, passwordRepeat) => {
   return true
 }
-const register = (data) => {
+const register = data => {
   return true
+}
+const getDetails = email => {
+  return JSON.parse(fs.readFileSync('db/users.json'))[email]
+}
+const saveDetails = (email, password) => {
+  const users = JSON.parse(fs.readFileSync('db/users.json'))
+  users[email] = {email, password, status: 'not-activated'}
+  fs.writeFileSync('db/users.json', jsonFormat(users, jsonFormatConfig))
+  return getDetails(email)
 }
 module.exports = {
   checkEmailAvailable,
   checkEmailValidity,
   checkPasswordValidity,
   checkPasswordRepeat,
-  register
+  register,
+  getDetails,
+  saveDetails
 }

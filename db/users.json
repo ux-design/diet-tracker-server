@@ -4,10 +4,15 @@
     "password": "1234",
     "status": "active",
     "firstname": "andrea",
-    "lastname": "",
+    "lastname": "mazzilli",
     "birth": "19760209",
     "weight": 85,
     "height": 180,
     "units": "metric"
+  },
+  "email@email.com": {
+    "email": "email@email.com",
+    "password": "12341234",
+    "status": "not-activated"
   }
 }
