@@ -27,8 +27,8 @@ const state = {
 
 // HELPERS
 
-const _logMemUsage = () => {
-  console.log(process.memoryUsage().heapUsed / 1024 / 1024)
+const _logMemUsage = (req) => {
+  console.log(req.connection.remoteAddress, process.memoryUsage().heapUsed / 1024 / 1024)
 }
 
 const _sendErrorMessage = (res) => {
@@ -51,13 +51,20 @@ app.use(compression())
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(function(req,res,next){setTimeout(next,200)});
 
 // API GET
 
 app.get('/api/:api', (req, res) => {
-  _logMemUsage()
+  _logMemUsage(req)
   const {api} = req.params
   switch(api) {
+    case"ip":
+      res.send({ "success": ip })
+      break
+    case"ping":
+      res.send({ "success": 'server is live' })
+      break
     case"food":
       res.send({ "success": state.food })
       break
@@ -70,7 +77,7 @@ app.get('/assets/food/:name', (req, res) => {
   const {name} = req.params;
   console.log(`${name}.svg`)
   const file = __dirname + `/assets/food/${name}.svg`
-  _logMemUsage()
+  _logMemUsage(req)
   _sendResource(res, file)
 } ) ;
 
@@ -78,7 +85,7 @@ app.get('/assets/app/:name', (req, res) => {
   const {name} = req.params;
   console.log(`${name}.svg`)
   const file = __dirname + `/assets/app/${name}.svg`
-  _logMemUsage()
+  _logMemUsage(req)
   _sendResource(res, file)
 } ) ;
 
@@ -89,7 +96,7 @@ app.get('/*', (req, res) => {
 // API POST
 
 app.post('/api/:api', (req, res) => {
-  _logMemUsage()
+  _logMemUsage(req)
   const {api} = req.params
   const {email, password, passwordRepeat, accepted} = req.body
   switch(api) {
