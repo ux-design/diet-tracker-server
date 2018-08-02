@@ -2,9 +2,9 @@
 
 const fs = require('fs')
 
-// ACCOUNT
+// USER
 
-const account = require('./modules/account')
+const user = require('./modules/user')
 
 // SERVER
 
@@ -101,10 +101,10 @@ app.post('/api/:api', (req, res) => {
   const {email, password, passwordRepeat, accepted} = req.body
   switch(api) {
     case"login":
-      if (!account.checkEmailAvailable(email)) {
-        const user = account.getDetails(email)
-        if (user.status === 'active') {
-          if (user.password === password) {
+      if (!user.checkEmailAvailable(email)) {
+        const temp = user.getAccount(email)
+        if (temp.status === 'active') {
+          if (temp.password === password) {
             res.send({ "success": user })
           } else {
             res.send({ "error": "wrong credentials" })
@@ -121,12 +121,12 @@ app.post('/api/:api', (req, res) => {
         res.send({ "error": "you need to accept the terms" })
       } else if (password !== passwordRepeat) {
         res.send({ "error": "password repeated is different" })
-      } else if (!account.checkPasswordValidity) {
+      } else if (!user.checkPasswordValidity) {
         res.send({ "error": "password is not valid" })
       } else {
-        if (account.checkEmailAvailable(email)) {
-          const user = account.saveDetails(email, password)
-          if (!user) {
+        if (user.checkEmailAvailable(email)) {
+          const temp = user.register(email, password)
+          if (!temp) {
             res.send({ "error": "there was a problem on the server" })
           } else {
             res.send({ "success": user })
